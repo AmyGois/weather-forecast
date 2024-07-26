@@ -2,6 +2,7 @@
 Events published
 - weather-app.js:
   - "New raw weather data" - all data from latest API request, unfiltered
+  - "New organised weather data" - weather data, filtered & organised
 ************************************************** */
 
 const mediator = {

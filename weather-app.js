@@ -1,6 +1,17 @@
+/* ***********************************************************************
+Contents:
+  - Object for final organised weather data
+  - Get weather info from Visual Crossing API
+  - Set off all functions to filter & organise weather info
+  - Filter & organise "current conditions" section of weather data
+  - Filter & organise "days" section of weather data
+  - Filter & organise "hours" section of weather data
+  - Subscribe to all relevant events to trigger weatherApp functions
+*********************************************************************** */
 import mediator from "./mediator.js";
 
 const weatherApp = (() => {
+  /* - Object for final organised weather data */
   const cleanedWeatherData = {
     address: {
       town: "",
@@ -26,6 +37,7 @@ const weatherApp = (() => {
     hours: [],
   };
 
+  /* - Get weather info from Visual Crossing API */
   function getWeather(chosenLocation, isCelsius) {
     const urlStart =
       "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
@@ -47,13 +59,14 @@ const weatherApp = (() => {
       .then((response) => {
         weatherData = response;
         weatherData.isCelsius = isCelsius;
-        console.log("Raw weather data:");
+        console.log("Raw weather data:"); /* Temporary */
         console.log(weatherData); /* Temporary */
         mediator.publish("New raw weather data", weatherData);
       })
       .catch((error) => console.log("Error: " + error));
   }
 
+  /* - Set off all functions to filter & organise weather info */
   function sortWeatherData(data) {
     sortAddress(data.resolvedAddress);
     sortCurrentConditions(data.currentConditions);
@@ -62,7 +75,8 @@ const weatherApp = (() => {
     sortDays(data.days);
     sortHours(data.currentConditions, data.days);
 
-    console.log(cleanedWeatherData);
+    console.log(cleanedWeatherData); /* Temporary */
+    mediator.publish("New organised weather data", cleanedWeatherData);
   }
 
   function sortAddress(rawAddress) {
@@ -72,6 +86,7 @@ const weatherApp = (() => {
       orderedAddress[orderedAddress.length - 1];
   }
 
+  /* - Filter & organise "current conditions" section of weather data */
   function sortCurrentConditions(currentConditions) {
     cleanedWeatherData.currentConditions.temperature = currentConditions.temp;
     cleanedWeatherData.currentConditions.conditions =
@@ -84,9 +99,9 @@ const weatherApp = (() => {
       currentConditions.precipprob;
     cleanedWeatherData.currentConditions.sunrise = currentConditions.sunrise;
     cleanedWeatherData.currentConditions.sunset = currentConditions.sunset;
-    cleanedWeatherData.currentConditions.moonPhase =
-      currentConditions.moonphase;
-
+    cleanedWeatherData.currentConditions.moonPhase = sortMoonPhaseInfo(
+      currentConditions.moonphase
+    );
     cleanedWeatherData.currentConditions.sunAxis = calcSunAxis(
       currentConditions.sunrise,
       currentConditions.sunset
@@ -118,7 +133,7 @@ const weatherApp = (() => {
     if ((timeSecs >= sunriseSecs) & (timeSecs <= sunsetSecs)) {
       const percentage =
         ((timeSecs - sunriseSecs) * 100) / (sunsetSecs - sunriseSecs);
-      const rounded = percentage.toFixed(2);
+      const rounded = Number(percentage.toFixed(2));
       return rounded;
     } else {
       return "night";
@@ -133,10 +148,36 @@ const weatherApp = (() => {
     return fullTime;
   }
 
+  function sortMoonPhaseInfo(moonphase) {
+    const moonPhaseInfo = {};
+    moonPhaseInfo.number = moonphase;
+    if (moonphase === 0) {
+      moonPhaseInfo.description = "new moon";
+    } else if ((moonphase > 0) & (moonphase < 0.25)) {
+      moonPhaseInfo.description = "waxing crescent";
+    } else if (moonphase === 0.25) {
+      moonPhaseInfo.description = "first quarter";
+    } else if ((moonphase > 0.25) & (moonphase < 0.5)) {
+      moonPhaseInfo.description = "waxing gibbous";
+    } else if (moonphase === 0.5) {
+      moonPhaseInfo.description = "full moon";
+    } else if ((moonphase > 0.5) & (moonphase < 0.75)) {
+      moonPhaseInfo.description = "waning gibbous";
+    } else if (moonphase === 0.75) {
+      moonPhaseInfo.description = "third quater";
+    } else if ((moonphase > 0.75) & (moonphase < 1)) {
+      moonPhaseInfo.description = "waning crescent";
+    } else {
+      console.log("Something went wrong!");
+    }
+    return moonPhaseInfo;
+  }
+
+  /* - Filter & organise "days" section of weather data */
   function sortDays(daysData) {
     daysData.forEach((newDay) => {
       const day = {};
-      day.date = newDay.datetime;
+      day.date = sortDateInfo(newDay.datetime);
       day.conditions = newDay.conditions;
       day.icon = newDay.icon;
       day.maxTemperature = newDay.tempmax;
@@ -144,6 +185,15 @@ const weatherApp = (() => {
       day.weekday = getWeekDay(newDay.datetime);
       cleanedWeatherData.days.push(day);
     });
+  }
+
+  function sortDateInfo(rawDate) {
+    const sortedDate = {};
+    const dateArray = rawDate.split("-");
+    sortedDate.day = Number(dateArray[2]);
+    sortedDate.month = Number(dateArray[1]);
+    sortedDate.year = Number(dateArray[0]);
+    return sortedDate;
   }
 
   function getWeekDay(date) {
@@ -169,6 +219,7 @@ const weatherApp = (() => {
     }
   }
 
+  /* - Filter & organise "hours" section of weather data */
   function sortHours(currentConditions, days) {
     const currentTimestamp = currentConditions.datetimeEpoch;
     sortHourInfo(
@@ -245,6 +296,7 @@ const weatherApp = (() => {
     cleanedWeatherData.hours.push(hour);
   }
 
+  /* - Subscribe to all relevant events to trigger weatherApp functions */
   function subscribe() {
     mediator.subscribe("New raw weather data", sortWeatherData);
   }
