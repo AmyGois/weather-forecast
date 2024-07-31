@@ -5,32 +5,34 @@ Events published
   - "New organised weather data" - weather data, filtered & organised
 ************************************************** */
 
-const mediator = {
-  events: {},
+const mediator = (() => {
+  const events = {};
 
-  subscribe: function (eventName, functionToSetOff) {
-    this.events[eventName] = this.events[eventName] || [];
-    this.events[eventName].push(functionToSetOff);
-  },
+  const subscribe = function (eventName, functionToSetOff) {
+    events[eventName] = events[eventName] || [];
+    events[eventName].push(functionToSetOff);
+  };
 
-  unsubscribe: function (eventName, functionToDelete) {
-    if (this.events[eventName]) {
-      for (let i = 0; i < this.events[eventName].length; i++) {
-        if (this.events[eventName][i] === functionToDelete) {
-          this.events[eventName].splice(i, 1);
+  const unsubscribe = function (eventName, functionToDelete) {
+    if (events[eventName]) {
+      for (let i = 0; i < events[eventName].length; i++) {
+        if (events[eventName][i] === functionToDelete) {
+          events[eventName].splice(i, 1);
           break;
         }
       }
     }
-  },
+  };
 
-  publish: function (eventName, data) {
-    if (this.events[eventName]) {
-      this.events[eventName].forEach((functionToRun) => {
+  const publish = function (eventName, data) {
+    if (events[eventName]) {
+      events[eventName].forEach((functionToRun) => {
         functionToRun(data);
       });
     }
-  },
-};
+  };
+
+  return { subscribe, unsubscribe, publish };
+})();
 
 export default mediator;
