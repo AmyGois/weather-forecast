@@ -10,34 +10,40 @@
   <body>
     <main>
       <section class="conditions-section">
-        <div class="current-section">
-          <div>
-            <h1>The weather in <span>Porto</span></h1>
+        <div class="current-subsection">
+          <div class="current-locationinfo">
+            <h1>The weather in <span>Marco de Canaveses</span></h1>
             <span>Portugal</span>
-            <p>A bit of description of the weather here</p>
+            <p>
+              A bit of description of what the weather is like in this place
+            </p>
           </div>
 
-          <form action="">
+          <form action="" class="chooselocation-form">
             <label for="">Search place:</label>
             <input type="text" />
-            <select name="" id="">
-              <option value="" selected>Celcius/Metric</option>
-              <option value="">Farenheit/Imperial</option>
-            </select>
-            <button></button>
+            <div>
+              <select name="" id="">
+                <option value="" selected>Celcius/Metric</option>
+                <option value="">Farenheit/Imperial</option>
+              </select>
+              <button>
+                <img src="./images/search-icon.svg" alt="Search" />
+              </button>
+            </div>
           </form>
 
-          <div>
-            <img src="" alt="" />
-            <div>
-              <span>25</span>
+          <div class="current-weather">
+            <img src="./images/weather-icons/clear-day.png" alt="" />
+            <div class="current-weather-temp">
+              <span class="current-weather-tempnumber">25</span>
               <span>ºC</span>
             </div>
             <span>Sunny, clear</span>
           </div>
         </div>
 
-        <div class="details-section">
+        <div class="details-subsection">
           <div>
             <div>
               <h2>UV Index</h2>
@@ -53,6 +59,7 @@
             </div>
           </div>
           <div>
+            <span>Astronomical information</span>
             <div><!-- Sun movements --></div>
             <div><!-- Phase of moon --></div>
           </div>
@@ -91,7 +98,9 @@
       </section>
     </main>
 
-    <footer></footer>
+    <footer>
+      <span>This is a footer!</span>
+    </footer>
     <!-- <p>
       https://github.com/visualcrossing/WeatherIcons/tree/main/SVG/4th%20Set%20-%20Color
     </p>
