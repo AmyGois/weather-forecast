@@ -27,7 +27,7 @@
                 <option value="" selected>Celcius/Metric</option>
                 <option value="">Farenheit/Imperial</option>
               </select>
-              <button>
+              <button id="btn">
                 <img src="./images/search-icon.svg" alt="Search" />
               </button>
             </div>
@@ -44,24 +44,100 @@
         </div>
 
         <div class="details-subsection">
-          <div>
-            <div>
+          <div class="details-info">
+            <div class="details-info-uvindex">
               <h2>UV Index</h2>
-              <!-- Info here -->
+              <div class="uvindex-grid">
+                <span class="uvindex-number">5</span>
+                <span class="uvindex-level">Medium</span>
+                <div class="uvindex-chart">
+                  <div class="uvindex-chart-value"></div>
+                </div>
+              </div>
             </div>
-            <div>
+
+            <div class="details-info-humidity">
               <h2>Humidity</h2>
-              <!-- Info here -->
+              <div class="info-chart">
+                <svg viewBox="0 0 36 36" class="circular-chart orange">
+                  <path
+                    class="chart-circle-bg"
+                    d="M18 4
+                      a 12 12 0 0 1 0 28
+                      a 12 12 0 0 1 0 -28"
+                  />
+                  <path
+                    class="chart-circle"
+                    stroke-dasharray="30, 100"
+                    d="M18 4
+                    a 12 12 0 0 1 0 28
+                    a 12 12 0 0 1 0 -28"
+                  />
+                  <text x="18" y="20.35" class="chart-percentage">30%</text>
+                </svg>
+              </div>
             </div>
-            <div>
+
+            <div class="details-info-rain">
               <h2>Chance of Rain</h2>
-              <!-- Info here -->
+              <div class="info-chart">
+                <svg viewBox="0 0 36 36" class="circular-chart orange">
+                  <path
+                    class="chart-circle-bg"
+                    d="M18 4
+                      a 12 12 0 0 1 0 28
+                      a 12 12 0 0 1 0 -28"
+                  />
+                  <path
+                    class="chart-circle"
+                    stroke-dasharray="30, 100"
+                    d="M18 4
+                    a 12 12 0 0 1 0 28
+                    a 12 12 0 0 1 0 -28"
+                  />
+                  <text x="18" y="20.35" class="chart-percentage">30%</text>
+                </svg>
+              </div>
             </div>
           </div>
-          <div>
-            <span>Astronomical information</span>
-            <div><!-- Sun movements --></div>
-            <div><!-- Phase of moon --></div>
+
+          <div class="details-astronomy">
+            <div class="sun-chart">
+              <div class="sun-chart-times">
+                <div>
+                  <span>Sunrise</span>
+                  <span>00:00:00</span>
+                </div>
+                <div>
+                  <span>Zenith</span>
+                  <span>00:00:00</span>
+                </div>
+                <div>
+                  <span>Sunset</span>
+                  <span>00:00:00</span>
+                </div>
+              </div>
+              <div class="sun-chart-progress">
+                <img
+                  class="sun-chart-progress-bar"
+                  src="./images/sun-progress-bar.svg"
+                  alt=""
+                />
+                <img
+                  class="sun-chart-progress-sun"
+                  src="./images/sun.png"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="moon-chart">
+              <div>
+                <span>Waxing gibbous</span>
+              </div>
+              <div>
+                <img class="moon-chart-icon" src="./images/night.png" alt="" />
+              </div>
+            </div>
           </div>
         </div>
       </section>

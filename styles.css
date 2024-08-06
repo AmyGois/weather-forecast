@@ -4,11 +4,23 @@
 
 :root {
   --background-colour-main: #ffffff;
-  --background-colour-day: #e5ffff;
+  --background-colour-day: rgba(217, 253, 255, 1);
   --background-colour-night: #064b5e;
   --contrast-colour: #ffdb4d;
   --text-colour-dark: #171717;
   --text-colour-light: #ececec;
+  --gradient-day: linear-gradient(
+    180deg,
+    rgba(19, 191, 228, 1) 0%,
+    rgba(65, 210, 234, 1) 35%,
+    rgba(217, 253, 255, 1) 100%
+  );
+  --gradient-night: linear-gradient(
+    180deg,
+    rgba(2, 35, 44, 1) 0%,
+    rgba(6, 75, 94, 1) 50%,
+    rgba(4, 41, 52, 1) 100%
+  );
 }
 
 h2 {
@@ -84,17 +96,22 @@ button {
 /* - Page layout */
 body {
   margin: 0;
+  padding: 8px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  gap: 8px;
   background-color: var(--background-colour-main);
 }
 
 .conditions-section {
   display: flex;
+  gap: 8px;
 }
 
-.current-subsection,
+.current-subsection {
+  flex: 0.9 0.9 0;
+}
 .details-subsection {
   flex: 1 1 0;
 }
@@ -105,12 +122,14 @@ body {
   grid-template-columns: 1.3fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   padding: 48px 32px;
-  background-color: var(--background-colour-day);
+  /* background-color: var(--background-colour-day); */
+  background: var(--gradient-day);
 }
 
 body.night .current-subsection {
-  background-color: var(--background-colour-night);
+  /* background-color: var(--background-colour-night); */
   color: var(--text-colour-light);
+  background: var(--gradient-night);
 }
 
 .current-locationinfo {
@@ -216,6 +235,196 @@ h1 > span {
 
 .current-weather > span {
   font-size: 1.5rem;
+}
+
+/* - Details of current conditions subsection */
+.details-subsection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.details-info {
+  flex: 2 2 0;
+  display: flex;
+  gap: 8px;
+}
+
+.details-info > div {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 48px 16px;
+  background-color: var(--background-colour-day);
+}
+
+.details-info h2 {
+  font-weight: 400;
+  text-align: center;
+}
+
+/* - UV index box */
+.uvindex-grid {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 2fr 1fr;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.uvindex-grid > span {
+  grid-column: 1 / 2;
+  text-align: center;
+}
+
+.uvindex-number {
+  font-size: 4rem;
+  font-weight: 400;
+}
+
+.uvindex-level {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  font-weight: 400;
+}
+
+.uvindex-chart {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
+  display: flex;
+  align-items: end;
+  background-color: var(--background-colour-main);
+}
+
+.uvindex-chart-value {
+  width: 100%;
+  height: 50%;
+  background-color: var(--contrast-colour);
+  animation: grow 1s ease-out;
+}
+
+@keyframes grow {
+  0% {
+    height: 0%;
+  }
+}
+
+/* - Circular percentage charts */
+.info-chart {
+  width: clamp(60%, calc(150px - 3vw), 90%);
+}
+
+.circular-chart {
+  width: 100%;
+}
+
+.chart-circle-bg {
+  fill: none;
+  stroke: var(--background-colour-main);
+  stroke-width: 6.5;
+}
+
+.chart-circle {
+  fill: none;
+  stroke-width: 5.5;
+  stroke-linecap: butt;
+  stroke: var(--background-colour-night);
+  animation: progress 1s ease-out forwards;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.chart-percentage {
+  fill: var(--text-colour-dark);
+  font-family: "roboto";
+  font-size: 0.5em;
+  text-anchor: middle;
+}
+
+/* - Astronomy details box */
+.details-astronomy {
+  flex: 1 1 0;
+  background-color: var(--background-colour-day);
+  display: flex;
+}
+
+body.night .details-astronomy {
+  background-color: var(--background-colour-night);
+  color: var(--text-colour-light);
+}
+
+.sun-chart {
+  flex: 2 2 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sun-chart > div {
+  flex: 1 1 0;
+}
+
+.sun-chart-times {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 5%;
+}
+
+.sun-chart-times > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sun-chart-progress {
+  width: 80%;
+  margin-left: 10%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.sun-chart-progress-bar {
+  width: 100%;
+}
+
+.sun-chart-progress-sun {
+  width: 14%;
+  position: absolute;
+  left: calc(50% - 7%);
+  animation: sun-move 1s ease-out;
+}
+
+@keyframes sun-move {
+  0% {
+    left: -5%;
+  }
+}
+
+.moon-chart {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 8px 12px 8px;
+  gap: 16px;
+}
+
+.moon-chart > div {
+  flex: 1 1 0;
+  text-align: center;
+}
+
+.moon-chart-icon {
+  width: 30%;
 }
 
 /* - Footer */
