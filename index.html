@@ -143,31 +143,45 @@
       </section>
 
       <section class="forecast-section">
-        <div>
-          <h2><button>Daily - 15 days</button></h2>
+        <div class="forecast-toggle">
+          <h2>
+            <button class="forecast-button-active">Daily - 15 days</button>
+          </h2>
           <h2><button>Hourly - 48 hours</button></h2>
         </div>
 
-        <div class="days-section">
+        <div class="days-subsection">
           <div class="cards">
             <div class="days-card">
-              <span>Today</span>
-              <span>12-07-2024</span>
-              <img src="" alt="" />
-              <span>Sunny, clear</span>
-              <span>Max: 28 ºC</span>
-              <span>Min: 15 ºC</span>
+              <span class="days-card-weekday">Today</span>
+              <span class="days-card-date">12-07-2024</span>
+              <img
+                src="./images/weather-icons/clear-day.png"
+                alt=""
+                class="days-card-icon"
+              />
+              <span class="days-card-conditions">Sunny, clear</span>
+              <span class="days-card-temp"
+                >Max: <span class="days-card-maxtemp">28 ºC</span></span
+              >
+              <span class="days-card-temp"
+                >Min: <span class="days-card-mintemp">15 ºC</span></span
+              >
             </div>
           </div>
         </div>
 
-        <div class="hours-section">
+        <div class="hours-subsection hidden">
           <div class="cards">
-            <div class="hours-card">
-              <span>Now (16:35)</span>
-              <img src="" alt="" />
-              <span>Sunny</span>
-              <span>25 ºC</span>
+            <div class="hours-card hours-card-day">
+              <span class="hours-card-time">Now (16:35)</span>
+              <img
+                src="./images/weather-icons/clear-day.png"
+                alt=""
+                class="hours-card-icon"
+              />
+              <span class="hours-card-conditions">Sunny</span>
+              <span class="hours-card-temp">25 ºC</span>
             </div>
           </div>
         </div>
@@ -175,7 +189,21 @@
     </main>
 
     <footer>
-      <span>This is a footer!</span>
+      <p class="footer-author">
+        Page built by <a href="https://github.com/AmyGois">Amy Gois</a>
+      </p>
+      <p>
+        Weather data powered by
+        <a href="https://www.visualcrossing.com">Visual Crossing</a>
+      </p>
+      <p>
+        Weather icons created by
+        <a
+          href="https://www.flaticon.com/free-icons/weather"
+          title="weather icons"
+          >iconixar - Flaticon</a
+        >
+      </p>
     </footer>
     <!-- <p>
       https://github.com/visualcrossing/WeatherIcons/tree/main/SVG/4th%20Set%20-%20Color

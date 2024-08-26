@@ -100,7 +100,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   background-color: var(--background-colour-main);
 }
 
@@ -427,7 +426,143 @@ body.night .details-astronomy {
   width: 30%;
 }
 
+/* - Forecast section */
+.forecast-section {
+  margin-top: 8px;
+  /* padding: 0 32px; */
+}
+
+.forecast-toggle {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 16px;
+  padding: 0 32px;
+}
+
+.forecast-toggle button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+
+.forecast-toggle button:hover,
+.forecast-button-active {
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}
+
+.cards {
+  display: flex;
+}
+
+.cards:last-child::after {
+  content: "....";
+  width: 32px;
+  height: 1px;
+  color: #ffffff00;
+}
+
+/* Daily forecast */
+.days-subsection {
+  width: 100%;
+  background-color: var(--background-colour-day);
+  overflow-x: scroll;
+}
+
+body.night .days-subsection {
+  background-color: var(--background-colour-night);
+}
+
+.days-subsection .cards {
+  padding: 16px 32px;
+  gap: 16px;
+}
+
+.days-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-colour-main);
+  min-height: 100%;
+  padding: 16px;
+  align-items: center;
+  gap: 6px;
+  min-width: 170px;
+}
+
+.days-card-weekday,
+.days-card-date,
+.days-card-temp {
+  font-weight: 300;
+}
+
+.days-card-date,
+.days-card-conditions {
+  margin-bottom: 12px;
+}
+
+.days-card-icon {
+  height: 5rem;
+}
+
+/* Hourly forecast */
+.hours-subsection {
+  width: 100%;
+  overflow-x: scroll;
+  padding: 0 32px;
+  background-color: var(--background-colour-main);
+}
+
+.hours-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  align-items: center;
+  padding: 16px;
+  gap: 6px;
+}
+
+.hours-card-day {
+  background-color: var(--background-colour-day);
+}
+
+.hours-card-night {
+  background-color: var(--background-colour-night);
+  color: var(--text-colour-light);
+}
+
+.hours-card-time,
+.hours-card-icon {
+  margin-bottom: 10px;
+}
+
+.hours-card-time {
+  font-weight: 300;
+}
+
+.hours-card-icon {
+  height: 4.5rem;
+}
+
 /* - Footer */
 footer {
   margin-top: auto;
+  background-color: var(--background-colour-night);
+  color: var(--text-colour-light);
+  display: flex;
+  padding: 8px 32px;
+  justify-content: space-between;
+  font-weight: 300;
+}
+
+footer a {
+  color: var(--text-colour-light);
+}
+
+.footer-author {
+  font-weight: 400;
 }
