@@ -92,25 +92,51 @@ const weatherApp = (() => {
     cleanedWeatherData.currentConditions.conditions =
       currentConditions.conditions;
     cleanedWeatherData.currentConditions.icon = currentConditions.icon;
-    cleanedWeatherData.currentConditions.time = currentConditions.datetime;
-    cleanedWeatherData.currentConditions.uvIndex = currentConditions.uvindex;
+    cleanedWeatherData.currentConditions.time = sortTimeInfo(
+      currentConditions.datetime
+    );
+    cleanedWeatherData.currentConditions.uvIndex = sortUvIndexInfo(
+      currentConditions.uvindex
+    );
     cleanedWeatherData.currentConditions.humidity = currentConditions.humidity;
     cleanedWeatherData.currentConditions.chanceOfRain =
       currentConditions.precipprob;
-    cleanedWeatherData.currentConditions.sunrise = currentConditions.sunrise;
-    cleanedWeatherData.currentConditions.sunset = currentConditions.sunset;
+    cleanedWeatherData.currentConditions.sunrise = sortTimeInfo(
+      currentConditions.sunrise
+    );
+    cleanedWeatherData.currentConditions.sunset = sortTimeInfo(
+      currentConditions.sunset
+    );
     cleanedWeatherData.currentConditions.moonPhase = sortMoonPhaseInfo(
       currentConditions.moonphase
     );
-    cleanedWeatherData.currentConditions.sunAxis = calcSunAxis(
-      currentConditions.sunrise,
-      currentConditions.sunset
+    cleanedWeatherData.currentConditions.sunAxis = sortTimeInfo(
+      calcSunAxis(currentConditions.sunrise, currentConditions.sunset)
     );
     cleanedWeatherData.currentConditions.sunPercentage = calcSunPercentage(
       currentConditions.sunrise,
       currentConditions.sunset,
       currentConditions.datetime
     );
+  }
+
+  function sortUvIndexInfo(uvIndexInfo) {
+    const sortedUvIndexInfo = {};
+    sortedUvIndexInfo.level = uvIndexInfo;
+    if (uvIndexInfo <= 2) {
+      sortedUvIndexInfo.risk = "low";
+    } else if ((uvIndexInfo >= 3) & (uvIndexInfo <= 5)) {
+      sortedUvIndexInfo.risk = "moderate";
+    } else if ((uvIndexInfo >= 6) & (uvIndexInfo <= 7)) {
+      sortedUvIndexInfo.risk = "high";
+    } else if ((uvIndexInfo >= 8) & (uvIndexInfo <= 10)) {
+      sortedUvIndexInfo.risk = "very high";
+    } else if (uvIndexInfo >= 11) {
+      sortedUvIndexInfo.risk = "extreme";
+    } else {
+      console.log("Something went wrong!");
+    }
+    return sortedUvIndexInfo;
   }
 
   function calcSunAxis(sunrise, sunset) {
@@ -281,7 +307,7 @@ const weatherApp = (() => {
     sunsetTimestamp
   ) {
     const hour = {};
-    hour.time = time;
+    hour.time = sortTimeInfo(time);
     hour.conditions = conditions;
     hour.temperature = temperature;
     hour.icon = icon;
@@ -294,6 +320,15 @@ const weatherApp = (() => {
       hour.isNight = true;
     }
     cleanedWeatherData.hours.push(hour);
+  }
+
+  function sortTimeInfo(rawTime) {
+    const sortedTime = {};
+    const timeArray = rawTime.split(":");
+    sortedTime.hour = Number(timeArray[0]);
+    sortedTime.minutes = Number(timeArray[1]);
+    sortedTime.seconds = Number(timeArray[2]);
+    return sortedTime;
   }
 
   /* - Subscribe to all relevant events to trigger weatherApp functions */
