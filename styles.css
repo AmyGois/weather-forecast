@@ -1,3 +1,23 @@
+/* ***************************************************
+Contents:
+  - Fonts
+  - Page layout
+  - Current conditions subsection
+    -> Location title and info
+    -> Form to choose location
+    -> Current weather
+  - Details of current conditions subsection
+    -> UV index box
+    -> Circular percentage charts
+    -> Astronomy details box
+  - Forecast section
+    -> Daily forecast
+    -> Hourly forecast
+  - Footer
+  - Medium screen size sytles
+  - Small screen size styles
+*************************************************** */
+
 * {
   box-sizing: border-box;
 }
@@ -121,12 +141,10 @@ body {
   grid-template-columns: 1.3fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   padding: 48px 32px;
-  /* background-color: var(--background-colour-day); */
   background: var(--gradient-day);
 }
 
 body.night .current-subsection {
-  /* background-color: var(--background-colour-night); */
   color: var(--text-colour-light);
   background: var(--gradient-night);
 }
@@ -146,7 +164,7 @@ body.night .current-subsection {
   grid-row: 1 / 4;
 }
 
-/* - Location title and info */
+/* -> Location title and info */
 h1 {
   font-weight: 300;
   margin: 0;
@@ -168,7 +186,7 @@ h1 > span {
   font-size: 1.1rem;
 }
 
-/* - Form to choose location */
+/* -> Form to choose location */
 .chooselocation-form {
   display: flex;
   flex-direction: column;
@@ -208,7 +226,7 @@ h1 > span {
   background-color: var(--contrast-colour);
 }
 
-/* - Current weather */
+/* -> Current weather */
 .current-weather {
   display: flex;
   flex-direction: column;
@@ -266,7 +284,7 @@ h1 > span {
   margin-bottom: 24px;
 }
 
-/* - UV index box */
+/* -> UV index box */
 .uvindex-contents {
   display: flex;
   width: 100%;
@@ -312,7 +330,7 @@ h1 > span {
   }
 }
 
-/* - Circular percentage charts */
+/* -> Circular percentage charts */
 .info-chart {
   width: clamp(60%, calc(150px - 3vw), 80%);
 }
@@ -348,7 +366,7 @@ h1 > span {
   text-anchor: middle;
 }
 
-/* - Astronomy details box */
+/* -> Astronomy details box */
 .details-astronomy {
   flex: 1 1 0;
   background-color: var(--background-colour-day);
@@ -430,7 +448,6 @@ body.night .details-astronomy {
 /* - Forecast section */
 .forecast-section {
   margin-top: 8px;
-  /* padding: 0 32px; */
 }
 
 .forecast-toggle {
@@ -468,7 +485,7 @@ body.night .details-astronomy {
   color: #ffffff00;
 }
 
-/* Daily forecast */
+/* -> Daily forecast */
 .days-subsection {
   width: 100%;
   background-color: var(--background-colour-day);
@@ -510,7 +527,7 @@ body.night .days-subsection {
   height: 5rem;
 }
 
-/* Hourly forecast */
+/* -> Hourly forecast */
 .hours-subsection {
   width: 100%;
   overflow-x: scroll;
@@ -568,7 +585,7 @@ footer a {
   font-weight: 400;
 }
 
-/* Medium screen size sytles */
+/* - Medium screen size sytles */
 @media (max-width: 980px) {
   .conditions-section {
     flex-direction: column;
@@ -580,7 +597,7 @@ footer a {
   }
 }
 
-/* Small screen size styles */
+/* - Small screen size styles */
 @media (max-width: 600px) {
   .current-subsection {
     display: flex;
