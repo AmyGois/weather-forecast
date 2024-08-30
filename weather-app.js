@@ -38,17 +38,17 @@ const weatherApp = (() => {
   };
 
   /* - Get weather info from Visual Crossing API */
-  function getWeather(chosenLocation, isCelsius) {
+  function getWeather(data) {
     const urlStart =
       "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-    const location = chosenLocation.toString();
+    const location = data.location.toString();
     const celsiusCode = "?unitGroup=metric";
     const farenheitCode = "?unitGroup=us";
     const urlEnd = "&key=UPUV9ETN2YGMY5JFBF53V82E7&contentType=json";
     let fullUrl;
     let weatherData;
 
-    if (isCelsius) {
+    if (data.isCelsius) {
       fullUrl = `${urlStart}${location}${celsiusCode}${urlEnd}`;
     } else {
       fullUrl = `${urlStart}${location}${farenheitCode}${urlEnd}`;
@@ -58,7 +58,7 @@ const weatherApp = (() => {
       .then((response) => response.json())
       .then((response) => {
         weatherData = response;
-        weatherData.isCelsius = isCelsius;
+        weatherData.isCelsius = data.isCelsius;
         console.log("Raw weather data:"); /* Temporary */
         console.log(weatherData); /* Temporary */
         mediator.publish("New raw weather data", weatherData);
@@ -333,11 +333,20 @@ const weatherApp = (() => {
 
   /* - Subscribe to all relevant events to trigger weatherApp functions */
   function subscribe() {
+    mediator.subscribe("New weather request", getWeather);
     mediator.subscribe("New raw weather data", sortWeatherData);
   }
 
   return { getWeather, subscribe };
 })();
 
-weatherApp.subscribe();
-weatherApp.getWeather("Porto", true);
+/* weatherApp.subscribe(); */
+
+/* const data = {
+  location: "Porto",
+  isCelcius: true,
+};
+
+weatherApp.getWeather(data); */
+
+export default weatherApp;

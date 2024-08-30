@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Forecast</title>
     <link rel="stylesheet" href="./styles.css" />
-    <script type="module" src="./weather-app.js"></script>
+    <script type="module" src="./index.js"></script>
   </head>
   <body>
     <main>
@@ -20,14 +20,14 @@
           </div>
 
           <form action="" class="chooselocation-form">
-            <label for="">Search place:</label>
-            <input type="text" />
+            <label for="search-location">Search place:</label>
+            <input type="text" name="search-location" id="search-location" />
             <div>
-              <select name="" id="">
-                <option value="" selected>Celcius/Metric</option>
-                <option value="">Farenheit/Imperial</option>
+              <select name="search-measurement" id="search-measurement">
+                <option value="celcius" selected>Celcius</option>
+                <option value="farenheit">Farenheit</option>
               </select>
-              <button id="btn">
+              <button id="search-btn">
                 <img src="./images/search-icon.svg" alt="Search" />
               </button>
             </div>
@@ -151,9 +151,11 @@
       <section class="forecast-section">
         <div class="forecast-toggle">
           <h2>
-            <button class="forecast-button-active">Daily - 15 days</button>
+            <button id="daily-forecast-btn" class="forecast-button-active">
+              Daily - 15 days
+            </button>
           </h2>
-          <h2><button>Hourly - 48 hours</button></h2>
+          <h2><button id="hourly-forecast-btn">Hourly - 48 hours</button></h2>
         </div>
 
         <div class="days-subsection">

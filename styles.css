@@ -120,6 +120,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  gap: 8px;
   background-color: var(--background-colour-main);
 }
 
@@ -206,8 +207,12 @@ h1 > span {
   background-color: var(--background-colour-main);
 }
 
-.chooselocation-form > input {
+.chooselocation-form > input,
+.chooselocation-form > div {
   width: 80%;
+}
+
+.chooselocation-form > input {
   padding: 6px;
 }
 
@@ -215,6 +220,7 @@ h1 > span {
   display: flex;
   align-items: center;
   gap: 16px;
+  justify-content: space-between;
 }
 
 .chooselocation-form select {
@@ -425,6 +431,10 @@ body.night .details-astronomy {
   0% {
     left: -5%;
   }
+}
+
+body.night .sun-chart-progress-sun {
+  display: none;
 }
 
 .moon-chart {
