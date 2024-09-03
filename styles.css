@@ -216,6 +216,10 @@ h1 > span {
   padding: 6px;
 }
 
+.chooselocation-form-error {
+  color: #ad0303;
+}
+
 .chooselocation-form > div {
   display: flex;
   align-items: center;

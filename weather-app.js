@@ -42,13 +42,14 @@ const weatherApp = (() => {
     const urlStart =
       "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
     const location = data.location.toString();
+    const celciusOrFarenheit = data.isCelcius;
     const celsiusCode = "?unitGroup=metric";
     const farenheitCode = "?unitGroup=us";
     const urlEnd = "&key=UPUV9ETN2YGMY5JFBF53V82E7&contentType=json";
     let fullUrl;
     let weatherData;
 
-    if (data.isCelsius) {
+    if (celciusOrFarenheit) {
       fullUrl = `${urlStart}${location}${celsiusCode}${urlEnd}`;
     } else {
       fullUrl = `${urlStart}${location}${farenheitCode}${urlEnd}`;
@@ -58,12 +59,14 @@ const weatherApp = (() => {
       .then((response) => response.json())
       .then((response) => {
         weatherData = response;
-        weatherData.isCelsius = data.isCelsius;
+        weatherData.isCelsius = celciusOrFarenheit;
         console.log("Raw weather data:"); /* Temporary */
         console.log(weatherData); /* Temporary */
         mediator.publish("New raw weather data", weatherData);
       })
-      .catch((error) => console.log("Error: " + error));
+      .catch((error) => {
+        mediator.publish("Request error", error);
+      });
   }
 
   /* - Set off all functions to filter & organise weather info */
