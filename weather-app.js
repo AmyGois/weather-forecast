@@ -32,6 +32,7 @@ const weatherApp = (() => {
       sunAxis: "",
       sunPercentage: "",
       moonPhase: "",
+      isNight: "",
     },
     days: [],
     hours: [],
@@ -120,6 +121,11 @@ const weatherApp = (() => {
       currentConditions.sunrise,
       currentConditions.sunset,
       currentConditions.datetime
+    );
+    cleanedWeatherData.currentConditions.isNight = answerIsNight(
+      currentConditions.datetimeEpoch,
+      currentConditions.sunriseEpoch,
+      currentConditions.sunsetEpoch
     );
   }
 
@@ -314,24 +320,33 @@ const weatherApp = (() => {
     hour.conditions = conditions;
     hour.temperature = temperature;
     hour.icon = icon;
-    if (
-      (hourTimestamp >= sunriseTimestamp) &
-      (hourTimestamp <= sunsetTimestamp)
-    ) {
-      hour.isNight = false;
-    } else {
-      hour.isNight = true;
-    }
+    hour.isNight = answerIsNight(
+      hourTimestamp,
+      sunriseTimestamp,
+      sunsetTimestamp
+    );
     cleanedWeatherData.hours.push(hour);
   }
 
   function sortTimeInfo(rawTime) {
     const sortedTime = {};
     const timeArray = rawTime.split(":");
+    sortedTime.fullTime = rawTime;
     sortedTime.hour = Number(timeArray[0]);
     sortedTime.minutes = Number(timeArray[1]);
     sortedTime.seconds = Number(timeArray[2]);
     return sortedTime;
+  }
+
+  function answerIsNight(hourTimestamp, sunriseTimestamp, sunsetTimestamp) {
+    if (
+      (hourTimestamp >= sunriseTimestamp) &
+      (hourTimestamp <= sunsetTimestamp)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   /* - Subscribe to all relevant events to trigger weatherApp functions */

@@ -37,6 +37,8 @@ const uiController = (() => {
       errorSpan.classList.add("hidden");
     }
 
+    updateNightMode(data.currentConditions.isNight);
+
     updateCurrentSubsection(
       data.address.town,
       data.address.country,
@@ -46,6 +48,16 @@ const uiController = (() => {
       data.isCelcius,
       data.currentConditions.conditions
     );
+  }
+
+  function updateNightMode(isNight) {
+    const body = document.querySelector("body");
+
+    if (isNight === true) {
+      body.classList.add("night");
+    } else {
+      body.classList.remove("night");
+    }
   }
 
   function updateCurrentSubsection(
@@ -181,7 +193,6 @@ const uiController = (() => {
 
   /* - Show error message for bad weather request */
   function showErrorMsg(error) {
-    /* const errorSpan = document.querySelector("#search-error"); */
     errorSpan.classList.remove("hidden");
     console.log(error);
   }
