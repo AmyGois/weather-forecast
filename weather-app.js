@@ -346,7 +346,7 @@ const weatherApp = (() => {
 /* weatherApp.subscribe(); */
 
 /* const data = {
-  location: "Porto",
+  location: "Marco de Canaveses",
   isCelcius: true,
 };
 

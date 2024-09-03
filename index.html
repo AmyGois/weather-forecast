@@ -12,9 +12,12 @@
       <section class="conditions-section">
         <div class="current-subsection">
           <div class="current-locationinfo">
-            <h1>The weather in <span>Marco de Canaveses</span></h1>
-            <span>Portugal</span>
-            <p>
+            <h1>
+              The weather in
+              <span id="weather-location">Marco de Canaveses</span>
+            </h1>
+            <span id="weather-country">Portugal</span>
+            <p id="weather-description">
               A bit of description of what the weather is like in this place
             </p>
           </div>
@@ -37,12 +40,18 @@
           </form>
 
           <div class="current-weather">
-            <img src="./images/weather-icons/clear-day.png" alt="" />
+            <img
+              src="./images/weather-icons/clear-day.png"
+              alt=""
+              id="weather-icon"
+            />
             <div class="current-weather-temp">
-              <span class="current-weather-tempnumber">25</span>
-              <span>ºC</span>
+              <span class="current-weather-tempnumber" id="weather-temp"
+                >25</span
+              >
+              <span id="weather-temp-measurement">ºC</span>
             </div>
-            <span>Sunny, clear</span>
+            <span id="weather-conditions">Sunny, clear</span>
           </div>
         </div>
 
