@@ -2,6 +2,12 @@
 Contents:
 	- Send form data to make new API request
   - Functions to update UI with new weather data
+    -> Update night mode
+    -> Update "current conditions" subsection
+    -> Update UV Index, humidity & rain charts
+    -> Update astronomy information
+    -> Update daily & hourly forecasts
+    -> Function to pick the right weather icon
   - Show error message for bad weather request
 	- Toggle visibility of daily and hourly forecasts on click
 	- Add all event listeners to page
@@ -81,8 +87,13 @@ const uiController = (() => {
       data.currentConditions.moonPhase.description,
       data.currentConditions.moonPhase.number
     );
+
+    updateDaysCards(data.days, data.isCelcius);
+
+    updateHoursCards(data.hours, data.isCelcius);
   }
 
+  /* -> Update night mode */
   function updateNightMode(isNight) {
     const body = document.querySelector("body");
 
@@ -93,6 +104,7 @@ const uiController = (() => {
     }
   }
 
+  /* -> Update "current conditions" subsection */
   function updateCurrentSubsection(
     location,
     country,
@@ -127,6 +139,7 @@ const uiController = (() => {
     weatherConditions.textContent = conditions;
   }
 
+  /* -> Update UV Index, humidity & rain charts */
   function updateUvIndexChart(uvNumber, uvRisk) {
     const uvIndexNum = document.querySelector(".uvindex-number");
     const uvIndexRisk = document.querySelector(".uvindex-level");
@@ -147,6 +160,7 @@ const uiController = (() => {
     removeAnimation(chart);
   }
 
+  /* -> Update astronomy information */
   function updateSunChart(sunrise, zenith, sunset, percentage, isNight) {
     const sunriseTime = document.querySelector("#sunchart-sunrise");
     const zenithTime = document.querySelector("#sunchart-zenith");
@@ -166,6 +180,12 @@ const uiController = (() => {
     } else {
       sunIcon.classList.add("hidden");
     }
+  }
+
+  function removeAnimation(element) {
+    setTimeout(() => {
+      element.classList.remove("animated");
+    }, 1001);
   }
 
   function updateMoonChart(moonPhase, moonNumber) {
@@ -194,12 +214,82 @@ const uiController = (() => {
     }
   }
 
-  function removeAnimation(element) {
-    setTimeout(() => {
-      element.classList.remove("animated");
-    }, 1001);
+  /* -> Update daily & hourly forecasts */
+  function updateDaysCards(days, isCelcius) {
+    const daysSection = document.querySelector("#days-cards-reel");
+    const dayCardTemplate = document.querySelector("#day-card-template");
+
+    daysSection.innerHTML = "";
+    for (let i = 0; i < days.length; i++) {
+      const newDay = dayCardTemplate.content.cloneNode(true);
+      const newWeekday = newDay.querySelector(".days-card-weekday");
+      const newDate = newDay.querySelector(".days-card-date");
+      const newIcon = newDay.querySelector(".days-card-icon");
+      const newConditions = newDay.querySelector(".days-card-conditions");
+      const newMaxTemp = newDay.querySelector(".days-card-maxtemp");
+      const newMinTemp = newDay.querySelector(".days-card-mintemp");
+      let celciusOrFarenheit;
+
+      if (isCelcius === true) {
+        celciusOrFarenheit = "ºC";
+      } else if (isCelcius === false) {
+        celciusOrFarenheit = "ºF";
+      }
+
+      if (i === 0) {
+        newWeekday.textContent = "Today";
+      } else {
+        newWeekday.textContent = days[i].weekday;
+      }
+      newDate.textContent = `${days[i].date.day} - ${days[i].date.month} - ${days[i].date.year}`;
+      selectWeatherIcon(newIcon, days[i].icon);
+      newConditions.textContent = days[i].conditions;
+      newMaxTemp.textContent = `${days[i].maxTemperature} ${celciusOrFarenheit}`;
+      newMinTemp.textContent = `${days[i].minTemperature} ${celciusOrFarenheit}`;
+
+      daysSection.appendChild(newDay);
+    }
   }
 
+  function updateHoursCards(hours, isCelcius) {
+    const hoursSection = document.querySelector("#hours-cards-reel");
+    const hourCardTemplate = document.querySelector("#hour-card-template");
+
+    hoursSection.innerHTML = "";
+    for (let i = 0; i < hours.length; i++) {
+      const newHour = hourCardTemplate.content.cloneNode(true);
+      const newTime = newHour.querySelector(".hours-card-time");
+      const newIcon = newHour.querySelector(".hours-card-icon");
+      const newConditions = newHour.querySelector(".hours-card-conditions");
+      const newTemp = newHour.querySelector(".hours-card-temp");
+
+      if (i === 0) {
+        newTime.textContent = `Now (${hours[i].time.hour}:${hours[i].time.minutes})`;
+      } else {
+        newTime.textContent = `${hours[i].time.hour}:${hours[i].time.minutes}`;
+      }
+      selectWeatherIcon(newIcon, hours[i].icon);
+      newConditions.textContent = hours[i].conditions;
+
+      if (isCelcius === true) {
+        newTemp.textContent = `${hours[i].temperature} ºC`;
+      } else if (isCelcius === false) {
+        newTemp.textContent = `${hours[i].temperature} ºF`;
+      }
+
+      if (hours[i].isNight === true) {
+        newHour.firstElementChild.classList.remove("hours-card-day");
+        newHour.firstElementChild.classList.add("hours-card-night");
+      } else {
+        newHour.firstElementChild.classList.remove("hours-card-night");
+        newHour.firstElementChild.classList.add("hours-card-day");
+      }
+
+      hoursSection.appendChild(newHour);
+    }
+  }
+
+  /* -> Function to pick the right weather icon */
   function selectWeatherIcon(imageToChange, iconName) {
     switch (iconName) {
       case "clear-day":

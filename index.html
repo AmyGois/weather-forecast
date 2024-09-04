@@ -76,17 +76,17 @@
                 <svg viewBox="0 0 36 36" class="circular-chart orange">
                   <path
                     class="chart-circle-bg"
-                    d="M18 4
-                      a 12 12 0 0 1 0 28
-                      a 12 12 0 0 1 0 -28"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <path
                     class="chart-circle"
                     id="humidity-chart"
                     stroke-dasharray="0, 100"
-                    d="M18 4
-                    a 12 12 0 0 1 0 28
-                    a 12 12 0 0 1 0 -28"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <text
                     x="18"
@@ -106,17 +106,17 @@
                 <svg viewBox="0 0 36 36" class="circular-chart orange">
                   <path
                     class="chart-circle-bg"
-                    d="M18 4
-                      a 12 12 0 0 1 0 28
-                      a 12 12 0 0 1 0 -28"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <path
                     class="chart-circle"
                     id="rain-chart"
                     stroke-dasharray="0, 100"
-                    d="M18 4
-                    a 12 12 0 0 1 0 28
-                    a 12 12 0 0 1 0 -28"
+                    d="M18 2.0845
+                    a 15.9155 15.9155 0 0 1 0 31.831
+                    a 15.9155 15.9155 0 0 1 0 -31.831"
                   />
                   <text
                     x="18"
@@ -189,8 +189,8 @@
         </div>
 
         <div class="days-subsection">
-          <div class="cards">
-            <div class="days-card">
+          <div class="cards" id="days-cards-reel">
+            <!-- <div class="days-card">
               <span class="days-card-weekday">Today</span>
               <span class="days-card-date">12-07-2024</span>
               <img
@@ -205,13 +205,13 @@
               <span class="days-card-temp"
                 >Min: <span class="days-card-mintemp">15 ºC</span></span
               >
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="hours-subsection hidden">
-          <div class="cards">
-            <div class="hours-card hours-card-day">
+          <div class="cards" id="hours-cards-reel">
+            <!-- <div class="hours-card hours-card-day">
               <span class="hours-card-time">Now (16:35)</span>
               <img
                 src="./images/weather-icons/clear-day.png"
@@ -220,7 +220,7 @@
               />
               <span class="hours-card-conditions">Sunny</span>
               <span class="hours-card-temp">25 ºC</span>
-            </div>
+            </div> -->
           </div>
         </div>
       </section>
@@ -245,6 +245,36 @@
         >
       </p>
     </footer>
+    <template id="day-card-template">
+      <div class="days-card">
+        <span class="days-card-weekday">Today</span>
+        <span class="days-card-date">12-07-2024</span>
+        <img
+          src="./images/weather-icons/clear-day.png"
+          alt=""
+          class="days-card-icon"
+        />
+        <span class="days-card-conditions">Sunny, clear</span>
+        <span class="days-card-temp"
+          >Max: <span class="days-card-maxtemp">28 ºC</span></span
+        >
+        <span class="days-card-temp"
+          >Min: <span class="days-card-mintemp">15 ºC</span></span
+        >
+      </div>
+    </template>
+    <template id="hour-card-template">
+      <div class="hours-card">
+        <span class="hours-card-time">Now (16:35)</span>
+        <img
+          src="./images/weather-icons/clear-day.png"
+          alt=""
+          class="hours-card-icon"
+        />
+        <span class="hours-card-conditions">Sunny</span>
+        <span class="hours-card-temp">25 ºC</span>
+      </div>
+    </template>
     <!-- <p>
       https://github.com/visualcrossing/WeatherIcons/tree/main/SVG/4th%20Set%20-%20Color
     </p>

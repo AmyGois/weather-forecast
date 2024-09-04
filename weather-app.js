@@ -17,7 +17,7 @@ const weatherApp = (() => {
       town: "",
       country: "",
     },
-    isCelsius: "",
+    isCelcius: "",
     currentConditions: {
       description: "",
       temperature: "",
@@ -44,14 +44,14 @@ const weatherApp = (() => {
       "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
     const location = data.location.toString();
     const celciusOrFarenheit = data.isCelcius;
-    const celsiusCode = "?unitGroup=metric";
+    const celciusCode = "?unitGroup=metric";
     const farenheitCode = "?unitGroup=us";
     const urlEnd = "&key=UPUV9ETN2YGMY5JFBF53V82E7&contentType=json";
     let fullUrl;
     let weatherData;
 
     if (celciusOrFarenheit) {
-      fullUrl = `${urlStart}${location}${celsiusCode}${urlEnd}`;
+      fullUrl = `${urlStart}${location}${celciusCode}${urlEnd}`;
     } else {
       fullUrl = `${urlStart}${location}${farenheitCode}${urlEnd}`;
     }
@@ -60,9 +60,7 @@ const weatherApp = (() => {
       .then((response) => response.json())
       .then((response) => {
         weatherData = response;
-        weatherData.isCelsius = celciusOrFarenheit;
-        console.log("Raw weather data:"); /* Temporary */
-        console.log(weatherData); /* Temporary */
+        weatherData.isCelcius = celciusOrFarenheit;
         mediator.publish("New raw weather data", weatherData);
       })
       .catch((error) => {
@@ -75,11 +73,10 @@ const weatherApp = (() => {
     sortAddress(data.resolvedAddress);
     sortCurrentConditions(data.currentConditions);
     cleanedWeatherData.currentConditions.description = data.description;
-    cleanedWeatherData.isCelsius = data.isCelsius;
+    cleanedWeatherData.isCelcius = data.isCelcius;
     sortDays(data.days);
     sortHours(data.currentConditions, data.days);
 
-    console.log(cleanedWeatherData); /* Temporary */
     mediator.publish("New organised weather data", cleanedWeatherData);
   }
 
@@ -210,6 +207,8 @@ const weatherApp = (() => {
 
   /* - Filter & organise "days" section of weather data */
   function sortDays(daysData) {
+    cleanedWeatherData.days.length = 0;
+
     daysData.forEach((newDay) => {
       const day = {};
       day.date = sortDateInfo(newDay.datetime);
@@ -225,9 +224,9 @@ const weatherApp = (() => {
   function sortDateInfo(rawDate) {
     const sortedDate = {};
     const dateArray = rawDate.split("-");
-    sortedDate.day = Number(dateArray[2]);
-    sortedDate.month = Number(dateArray[1]);
-    sortedDate.year = Number(dateArray[0]);
+    sortedDate.day = dateArray[2];
+    sortedDate.month = dateArray[1];
+    sortedDate.year = dateArray[0];
     return sortedDate;
   }
 
@@ -257,6 +256,8 @@ const weatherApp = (() => {
   /* - Filter & organise "hours" section of weather data */
   function sortHours(currentConditions, days) {
     const currentTimestamp = currentConditions.datetimeEpoch;
+
+    cleanedWeatherData.hours.length = 0;
     sortHourInfo(
       currentConditions.datetime,
       currentConditions.conditions,
@@ -332,9 +333,9 @@ const weatherApp = (() => {
     const sortedTime = {};
     const timeArray = rawTime.split(":");
     sortedTime.fullTime = rawTime;
-    sortedTime.hour = Number(timeArray[0]);
-    sortedTime.minutes = Number(timeArray[1]);
-    sortedTime.seconds = Number(timeArray[2]);
+    sortedTime.hour = timeArray[0];
+    sortedTime.minutes = timeArray[1];
+    sortedTime.seconds = timeArray[2];
     return sortedTime;
   }
 
@@ -355,16 +356,17 @@ const weatherApp = (() => {
     mediator.subscribe("New raw weather data", sortWeatherData);
   }
 
-  return { getWeather, subscribe };
+  /* - Initialiser function */
+  function init() {
+    const data = {
+      location: "Marco de Canaveses",
+      isCelcius: true,
+    };
+
+    getWeather(data);
+  }
+
+  return { subscribe, init };
 })();
-
-/* weatherApp.subscribe(); */
-
-/* const data = {
-  location: "Marco de Canaveses",
-  isCelcius: true,
-};
-
-weatherApp.getWeather(data); */
 
 export default weatherApp;

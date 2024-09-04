@@ -355,12 +355,12 @@ h1 > span {
 .chart-circle-bg {
   fill: none;
   stroke: var(--background-colour-main);
-  stroke-width: 6.5;
+  stroke-width: 3.8;
 }
 
 .chart-circle {
   fill: none;
-  stroke-width: 5.5;
+  stroke-width: 2.8;
   stroke-linecap: butt;
   stroke: var(--background-colour-night);
 }
