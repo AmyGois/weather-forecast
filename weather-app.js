@@ -151,9 +151,13 @@ const weatherApp = (() => {
     const axisFullTimeSecs = Math.round(
       sunriseSecs + (sunsetSecs - sunriseSecs) / 2
     );
-    const axisSeconds = axisFullTimeSecs % 60;
-    const axisMinutes = ((axisFullTimeSecs - axisSeconds) / 60) % 60;
-    const axisHours = Math.floor(axisFullTimeSecs / 60 / 60);
+    const axisSeconds = (axisFullTimeSecs % 60).toString().padStart(2, "0");
+    const axisMinutes = (((axisFullTimeSecs - axisSeconds) / 60) % 60)
+      .toString()
+      .padStart(2, "0");
+    const axisHours = Math.floor(axisFullTimeSecs / 60 / 60)
+      .toString()
+      .padStart(2, "0");
     const axisTime = `${axisHours}:${axisMinutes}:${axisSeconds}`;
     return axisTime;
   }
