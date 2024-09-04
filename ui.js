@@ -1,6 +1,7 @@
 /* ***********************************************************************
 Contents:
 	- Send form data to make new API request
+  - Functions to update UI with new weather data
   - Show error message for bad weather request
 	- Toggle visibility of daily and hourly forecasts on click
 	- Add all event listeners to page
@@ -32,7 +33,13 @@ const uiController = (() => {
     }
   }
 
+  /* - Functions to update UI with new weather data */
   function updateUi(data) {
+    const humidityChart = document.querySelector("#humidity-chart");
+    const humidityText = document.querySelector("#humidity-chart-text");
+    const rainChart = document.querySelector("#rain-chart");
+    const rainText = document.querySelector("#rain-chart-text");
+
     if (!errorSpan.classList.contains("hidden")) {
       errorSpan.classList.add("hidden");
     }
@@ -47,6 +54,32 @@ const uiController = (() => {
       data.currentConditions.temperature,
       data.isCelcius,
       data.currentConditions.conditions
+    );
+
+    updateUvIndexChart(
+      data.currentConditions.uvIndex.level,
+      data.currentConditions.uvIndex.risk
+    );
+
+    updateCircleChart(
+      humidityChart,
+      humidityText,
+      data.currentConditions.humidity
+    );
+
+    updateCircleChart(rainChart, rainText, data.currentConditions.chanceOfRain);
+
+    updateSunChart(
+      data.currentConditions.sunrise.fullTime,
+      data.currentConditions.sunAxis.fullTime,
+      data.currentConditions.sunset.fullTime,
+      data.currentConditions.sunPercentage,
+      data.currentConditions.isNight
+    );
+
+    updateMoonChart(
+      data.currentConditions.moonPhase.description,
+      data.currentConditions.moonPhase.number
     );
   }
 
@@ -92,6 +125,79 @@ const uiController = (() => {
       celciusOrFarenheit.textContent = "ºF";
     }
     weatherConditions.textContent = conditions;
+  }
+
+  function updateUvIndexChart(uvNumber, uvRisk) {
+    const uvIndexNum = document.querySelector(".uvindex-number");
+    const uvIndexRisk = document.querySelector(".uvindex-level");
+    const uvIndexChart = document.querySelector(".uvindex-chart-value");
+    const chartLevel = uvNumber * 10;
+
+    uvIndexNum.textContent = uvNumber;
+    uvIndexRisk.textContent = uvRisk;
+    uvIndexChart.style.height = `${chartLevel}%`;
+    uvIndexChart.classList.add("animated");
+    removeAnimation(uvIndexChart);
+  }
+
+  function updateCircleChart(chart, text, percentage) {
+    text.textContent = `${percentage}%`;
+    chart.style.strokeDasharray = `${percentage} 100`;
+    chart.classList.add("animated");
+    removeAnimation(chart);
+  }
+
+  function updateSunChart(sunrise, zenith, sunset, percentage, isNight) {
+    const sunriseTime = document.querySelector("#sunchart-sunrise");
+    const zenithTime = document.querySelector("#sunchart-zenith");
+    const sunsetTime = document.querySelector("#sunchart-sunset");
+    const sunIcon = document.querySelector("#sunchart-icon");
+    const sunPercentage = percentage - 7;
+
+    sunriseTime.textContent = sunrise;
+    zenithTime.textContent = zenith;
+    sunsetTime.textContent = sunset;
+    sunIcon.classList.remove("hidden");
+
+    if (isNight === false) {
+      sunIcon.style.left = `${sunPercentage}%`;
+      sunIcon.classList.add("animated");
+      removeAnimation(sunIcon);
+    } else {
+      sunIcon.classList.add("hidden");
+    }
+  }
+
+  function updateMoonChart(moonPhase, moonNumber) {
+    const moonPhaseTitle = document.querySelector("#moon-phase");
+    const moonPhaseIcon = document.querySelector("#moon-icon");
+
+    moonPhaseTitle.textContent = moonPhase;
+    if (moonNumber === 0) {
+      moonPhaseIcon.src = "./images/moon-phase/new-moon.png";
+    } else if ((moonNumber > 0) & (moonNumber < 0.25)) {
+      moonPhaseIcon.src = "./images/moon-phase/waxing-crescent.png";
+    } else if (moonNumber === 0.25) {
+      moonPhaseIcon.src = "./images/moon-phase/first-quarter.png";
+    } else if ((moonNumber > 0.25) & (moonNumber < 0.5)) {
+      moonPhaseIcon.src = "./images/moon-phase/waxing-gibbous.png";
+    } else if (moonNumber === 0.5) {
+      moonPhaseIcon.src = "./images/moon-phase/full-moon.png";
+    } else if ((moonNumber > 0.5) & (moonNumber < 0.75)) {
+      moonPhaseIcon.src = "./images/moon-phase/waning-gibbous.png";
+    } else if (moonNumber === 0.75) {
+      moonPhaseIcon.src = "./images/moon-phase/third-quarter.png";
+    } else if ((moonNumber > 0.75) & (moonNumber < 1)) {
+      moonPhaseIcon.src = "./images/moon-phase/waning-crescent.png";
+    } else {
+      console.log("Something went wrong getting the moon icon!");
+    }
+  }
+
+  function removeAnimation(element) {
+    setTimeout(() => {
+      element.classList.remove("animated");
+    }, 1001);
   }
 
   function selectWeatherIcon(imageToChange, iconName) {

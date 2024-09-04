@@ -82,12 +82,20 @@
                   />
                   <path
                     class="chart-circle"
-                    stroke-dasharray="30, 100"
+                    id="humidity-chart"
+                    stroke-dasharray="0, 100"
                     d="M18 4
                     a 12 12 0 0 1 0 28
                     a 12 12 0 0 1 0 -28"
                   />
-                  <text x="18" y="20.35" class="chart-percentage">30%</text>
+                  <text
+                    x="18"
+                    y="20.35"
+                    class="chart-percentage"
+                    id="humidity-chart-text"
+                  >
+                    30%
+                  </text>
                 </svg>
               </div>
             </div>
@@ -104,12 +112,20 @@
                   />
                   <path
                     class="chart-circle"
-                    stroke-dasharray="30, 100"
+                    id="rain-chart"
+                    stroke-dasharray="0, 100"
                     d="M18 4
                     a 12 12 0 0 1 0 28
                     a 12 12 0 0 1 0 -28"
                   />
-                  <text x="18" y="20.35" class="chart-percentage">30%</text>
+                  <text
+                    x="18"
+                    y="20.35"
+                    class="chart-percentage"
+                    id="rain-chart-text"
+                  >
+                    30%
+                  </text>
                 </svg>
               </div>
             </div>
@@ -120,15 +136,15 @@
               <div class="sun-chart-times">
                 <div>
                   <span>Sunrise</span>
-                  <span>00:00:00</span>
+                  <span id="sunchart-sunrise">00:00:00</span>
                 </div>
                 <div>
                   <span>Zenith</span>
-                  <span>00:00:00</span>
+                  <span id="sunchart-zenith">00:00:00</span>
                 </div>
                 <div>
                   <span>Sunset</span>
-                  <span>00:00:00</span>
+                  <span id="sunchart-sunset">00:00:00</span>
                 </div>
               </div>
               <div class="sun-chart-progress">
@@ -139,6 +155,7 @@
                 />
                 <img
                   class="sun-chart-progress-sun"
+                  id="sunchart-icon"
                   src="./images/sun.png"
                   alt=""
                 />
@@ -146,11 +163,12 @@
             </div>
             <div class="moon-chart">
               <div>
-                <span>Waxing gibbous</span>
+                <span id="moon-phase">Waxing gibbous</span>
               </div>
               <div>
                 <img
                   class="moon-chart-icon"
+                  id="moon-icon"
                   src="./images/moon-phase/waxing-gibbous.png"
                   alt=""
                 />
